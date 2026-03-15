@@ -35,7 +35,8 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.response?.data?.error || 'Signup failed' };
+      const errData = error.response?.data?.error;
+      return { success: false, error: typeof errData === 'string' ? errData : (errData?.message || 'Signup failed') };
     } finally {
       setLoading(false);
     }
@@ -51,7 +52,8 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
       return { success: true };
     } catch (error) {
-      return { success: false, error: error.response?.data?.error || 'Login failed' };
+      const errData = error.response?.data?.error;
+      return { success: false, error: typeof errData === 'string' ? errData : (errData?.message || 'Login failed') };
     } finally {
       setLoading(false);
     }

@@ -139,7 +139,9 @@ export const TradingInterface = ({ recommendedStock }) => {
       });
       fetchStocks();
     } catch (error) {
-      setMessage(`✗ ${error.response?.data?.error || 'Trade failed'}`);
+      const errData = error.response?.data?.error;
+      const errMsg = typeof errData === 'string' ? errData : (errData?.message || 'Trade failed');
+      setMessage(`✗ ${errMsg}`);
     } finally {
       setLoading(false);
     }
