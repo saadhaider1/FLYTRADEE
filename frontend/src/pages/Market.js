@@ -9,7 +9,6 @@ export const Market = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [stocks, setStocks] = useState([]);
-  const [selectedStock, setSelectedStock] = useState(null);
   const [loading, setLoading] = useState(false);
   const [news, setNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(false);
@@ -51,9 +50,6 @@ export const Market = () => {
     navigate('/');
   };
 
-  const handleViewTechnicals = (stock) => {
-    setSelectedStock(stock);
-  };
 
   const handleBuyStock = (stock) => {
     navigate('/trade', { state: { selectedStock: stock } });
@@ -98,7 +94,7 @@ export const Market = () => {
               <h2>📺 Trending News & Market Updates</h2>
               <p>Latest insights and market movements</p>
             </div>
-            <button 
+            <button
               onClick={handleRefreshNews}
               className="refresh-btn"
               disabled={newsLoading}
@@ -175,7 +171,7 @@ export const Market = () => {
                       <span className="volume">{(stock.volume / 1000000).toFixed(1)}M</span>
                     </div>
                     <div className="col-action">
-                      <button 
+                      <button
                         onClick={() => handleBuyStock(stock)}
                         className="buy-btn"
                       >
