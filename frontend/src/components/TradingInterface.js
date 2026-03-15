@@ -27,6 +27,7 @@ export const TradingInterface = ({ recommendedStock }) => {
     fetchStocks();
     const interval = setInterval(fetchStocks, 5000);
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -72,7 +73,7 @@ export const TradingInterface = ({ recommendedStock }) => {
       const date = new Date();
       date.setDate(date.getDate() - i);
       labels.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
-      
+
       const change = (Math.random() - 0.5) * basePrice * 0.02;
       basePrice += change;
       prices.push(parseFloat(basePrice.toFixed(2)));
@@ -146,7 +147,7 @@ export const TradingInterface = ({ recommendedStock }) => {
 
   const handleAccountDetailsSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Basic validation
     if (!accountDetails.cardHolder || !accountDetails.cardNumber || !accountDetails.expiryDate || !accountDetails.cvv) {
       alert('Please fill in all account details');
@@ -197,7 +198,7 @@ export const TradingInterface = ({ recommendedStock }) => {
         padding: 12,
         cornerRadius: 8,
         callbacks: {
-          label: function(context) {
+          label: function (context) {
             return '$' + context.parsed.y.toFixed(2);
           }
         }
@@ -212,7 +213,7 @@ export const TradingInterface = ({ recommendedStock }) => {
         ticks: {
           color: '#8080a0',
           font: { size: 11 },
-          callback: function(value) {
+          callback: function (value) {
             return '$' + value.toFixed(0);
           }
         },
@@ -386,11 +387,11 @@ export const TradingInterface = ({ recommendedStock }) => {
               <form onSubmit={handleAccountDetailsSubmit} className="account-form">
                 <div className="form-section">
                   <h4>Payment Method</h4>
-                  
+
                   <div className="form-group">
                     <label>Account Type</label>
-                    <select 
-                      name="accountType" 
+                    <select
+                      name="accountType"
                       value={accountDetails.accountType}
                       onChange={handleAccountInputChange}
                       className="form-select"

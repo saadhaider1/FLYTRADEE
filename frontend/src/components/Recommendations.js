@@ -97,6 +97,7 @@ export const Recommendations = ({ onSelectStock }) => {
 
   useEffect(() => {
     fetchRecommendations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchRecommendations = async () => {
@@ -206,7 +207,7 @@ export const Recommendations = ({ onSelectStock }) => {
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={() => onSelectStock && onSelectStock(rec)}
                 className="invest-btn"
               >

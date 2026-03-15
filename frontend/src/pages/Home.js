@@ -47,6 +47,7 @@ export const Home = () => {
       setCurrentSlide((prev) => (prev + 1) % features.length);
     }, 5000);
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const nextSlide = () => {
@@ -95,16 +96,16 @@ export const Home = () => {
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-logo-glow">
-          <svg 
-            className="hero-logo" 
-            viewBox="0 0 400 300" 
+          <svg
+            className="hero-logo"
+            viewBox="0 0 400 300"
             xmlns="http://www.w3.org/2000/svg"
           >
             {/* Left side - Lightning bolt shape */}
             <g className="logo-left-part">
               <polygon points="170,85 140,180 190,180 125,270 200,140 150,140" fill="white" />
             </g>
-            
+
             {/* Right side - Triangle shape */}
             <g className="logo-right-part">
               <polygon points="200,85 330,85 380,200 330,200" fill="white" />
@@ -116,11 +117,11 @@ export const Home = () => {
         <div className="hero-content">
           <h1>Elevate Your<br />Trading Experience</h1>
           <p>Unlock your trading potential with a fully regulated environment, powered by Fly</p>
-          
+
           <button onClick={() => !user ? navigate('/signup') : navigate('/trade')} className="cta-button">
             <span>Sign Up & Trade</span>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M7 10h6M13 7l3 3-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M7 10h6M13 7l3 3-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </button>
         </div>
@@ -186,7 +187,7 @@ export const Home = () => {
           <button onClick={() => !user ? navigate('/signup') : navigate('/trade')} className="cta-button large">
             <span>Get Started Now</span>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M7 10h6M13 7l3 3-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M7 10h6M13 7l3 3-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </button>
         </div>
@@ -250,33 +251,33 @@ export const Home = () => {
           <div className="contact-form">
             <form onSubmit={(e) => { e.preventDefault(); alert('Thank you for contacting us! We will get back to you soon.'); }}>
               <div className="form-group">
-                <input 
-                  type="text" 
-                  placeholder="Your Name" 
-                  required 
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  required
                   className="form-input"
                 />
               </div>
               <div className="form-group">
-                <input 
-                  type="email" 
-                  placeholder="Your Email" 
-                  required 
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  required
                   className="form-input"
                 />
               </div>
               <div className="form-group">
-                <textarea 
-                  placeholder="Your Message" 
-                  rows="5" 
-                  required 
+                <textarea
+                  placeholder="Your Message"
+                  rows="5"
+                  required
                   className="form-input"
                 ></textarea>
               </div>
               <button type="submit" className="cta-button">
                 <span>Send Message</span>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M7 10h6M13 7l3 3-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M7 10h6M13 7l3 3-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               </button>
             </form>
@@ -305,9 +306,9 @@ export const Home = () => {
               <div className="contact-icon">💬</div>
               <h4>Social Media</h4>
               <div className="social-links">
-                <a href="#" className="social-link">Twitter</a>
-                <a href="#" className="social-link">LinkedIn</a>
-                <a href="#" className="social-link">Discord</a>
+                <a href="#!" className="social-link">Twitter</a>
+                <a href="#!" className="social-link">LinkedIn</a>
+                <a href="#!" className="social-link">Discord</a>
               </div>
             </div>
           </div>
@@ -319,9 +320,9 @@ export const Home = () => {
         <div className="footer-content">
           <p>&copy; 2026 Fly. All rights reserved.</p>
           <div className="footer-links">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Support</a>
+            <a href="#!">Privacy</a>
+            <a href="#!">Terms</a>
+            <a href="#!">Support</a>
           </div>
         </div>
       </footer>

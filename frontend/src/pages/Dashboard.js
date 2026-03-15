@@ -14,7 +14,6 @@ export const Dashboard = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('1w');
   const [chartData, setChartData] = useState(null);
   const [portfolioValue, setPortfolioValue] = useState(0);
-  const [totalSpent, setTotalSpent] = useState(0);
   const [walletAddress, setWalletAddress] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
@@ -24,8 +23,8 @@ export const Dashboard = () => {
 
   useEffect(() => {
     generateChartData();
-    calculateValues();
     checkWalletConnection();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPeriod]);
 
   useEffect(() => {
@@ -173,9 +172,6 @@ export const Dashboard = () => {
     setPortfolioValue(basePrice);
   };
 
-  const calculateValues = () => {
-    setTotalSpent(45000 * 0.42);
-  };
 
   const handleLogout = () => {
     logout();
@@ -203,7 +199,7 @@ export const Dashboard = () => {
         padding: 12,
         cornerRadius: 8,
         callbacks: {
-          label: function(context) {
+          label: function (context) {
             return '$' + context.parsed.y.toFixed(2);
           }
         }
@@ -235,27 +231,27 @@ export const Dashboard = () => {
           </div>
           <ul className="nav-menu">
             <li onClick={() => setActiveView('dashboard')} className={`nav-link-btn ${activeView === 'dashboard' ? 'active' : ''}`}>
-              <a href="#" className="nav-link">Dashboard</a>
+              <a href="#!" className="nav-link">Dashboard</a>
             </li>
             <li onClick={() => navigate('/market')} className="nav-link-btn">
-              <a href="#" className="nav-link">Market</a>
+              <a href="#!" className="nav-link">Market</a>
             </li>
             <li onClick={() => navigate('/trade')} className="nav-link-btn">
-              <a href="#" className="nav-link">Trade</a>
+              <a href="#!" className="nav-link">Trade</a>
             </li>
             <li onClick={() => setActiveView('portfolio')} className={`nav-link-btn ${activeView === 'portfolio' ? 'active' : ''}`}>
-              <a href="#" className="nav-link">Portfolio</a>
+              <a href="#!" className="nav-link">Portfolio</a>
             </li>
             <li onClick={() => setActiveView('assets')} className={`nav-link-btn ${activeView === 'assets' ? 'active' : ''}`}>
-              <a href="#" className="nav-link">Assets</a>
+              <a href="#!" className="nav-link">Assets</a>
             </li>
           </ul>
         </div>
         <div className="nav-right">
           <button className="icon-btn notification">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" strokeWidth="2" strokeLinecap="round"/>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" strokeWidth="2" strokeLinecap="round" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </button>
           <div className="user-menu-container">
@@ -271,7 +267,7 @@ export const Dashboard = () => {
                 <hr className="dropdown-divider" />
                 <button className="dropdown-btn logout-btn" onClick={handleLogout}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 3l-4 4m0-4l4 4m-4-4v8" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 3l-4 4m0-4l4 4m-4-4v8" strokeWidth="2" strokeLinecap="round" />
                   </svg>
                   Logout
                 </button>
@@ -305,9 +301,9 @@ export const Dashboard = () => {
                   <button className="action-btn sell">SELL</button>
                   <button className="icon-btn settings">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <circle cx="12" cy="12" r="1" strokeWidth="2"/>
-                      <circle cx="12" cy="5" r="1" strokeWidth="2"/>
-                      <circle cx="12" cy="19" r="1" strokeWidth="2"/>
+                      <circle cx="12" cy="12" r="1" strokeWidth="2" />
+                      <circle cx="12" cy="5" r="1" strokeWidth="2" />
+                      <circle cx="12" cy="19" r="1" strokeWidth="2" />
                     </svg>
                   </button>
                 </div>
@@ -344,8 +340,8 @@ export const Dashboard = () => {
                 <div className="balance-amount">18,959</div>
                 <div className="balance-chart">
                   <svg viewBox="0 0 100 30" preserveAspectRatio="none">
-                    <polyline points="0,15 5,10 10,12 15,8 20,14 25,10 30,13 35,9 40,15 45,11 50,14 55,10 60,16 65,12 70,14 75,9 80,15 85,11 90,13 95,10 100,14" 
-                      fill="none" stroke="#667eea" strokeWidth="1" opacity="0.5"/>
+                    <polyline points="0,15 5,10 10,12 15,8 20,14 25,10 30,13 35,9 40,15 45,11 50,14 55,10 60,16 65,12 70,14 75,9 80,15 85,11 90,13 95,10 100,14"
+                      fill="none" stroke="#667eea" strokeWidth="1" opacity="0.5" />
                   </svg>
                 </div>
               </div>
@@ -363,7 +359,7 @@ export const Dashboard = () => {
                 <div className="balance-chart">
                   <svg viewBox="0 0 100 30" preserveAspectRatio="none">
                     <polyline points="0,15 5,12 10,14 15,10 20,16 25,12 30,15 35,11 40,17 45,13 50,16 55,12 60,18 65,14 70,16 75,11 80,17 85,13 90,15 95,12 100,16"
-                      fill="none" stroke="#667eea" strokeWidth="1" opacity="0.5"/>
+                      fill="none" stroke="#667eea" strokeWidth="1" opacity="0.5" />
                   </svg>
                 </div>
               </div>
@@ -385,14 +381,14 @@ export const Dashboard = () => {
                 <div className="wallet-connected">
                   <div className="connected-header">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#4caf50' }}>
-                      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12z"/>
+                      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12z" />
                     </svg>
                     <span className="connected-badge">Connected</span>
                   </div>
                   <div className="wallet-address">
                     {walletAddress?.slice(0, 6)}...{walletAddress?.slice(-4)}
                   </div>
-                  <button 
+                  <button
                     className="disconnect-btn"
                     onClick={disconnectWallet}
                   >
@@ -400,13 +396,13 @@ export const Dashboard = () => {
                   </button>
                 </div>
               ) : (
-                <button 
+                <button
                   className="wallet-btn"
                   onClick={connectWallet}
                   disabled={isConnecting}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12z"/>
+                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12z" />
                   </svg>
                   {isConnecting ? 'Connecting...' : 'Connect Wallet'}
                 </button>

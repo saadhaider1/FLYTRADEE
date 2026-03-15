@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './SplashScreen.css';
 
 export const SplashScreen = ({ onComplete }) => {
@@ -14,16 +14,16 @@ export const SplashScreen = ({ onComplete }) => {
   return (
     <div className="splash-container">
       <div className="splash-content">
-        <svg 
-          className="splash-logo" 
-          viewBox="0 0 400 300" 
+        <svg
+          className="splash-logo"
+          viewBox="0 0 400 300"
           xmlns="http://www.w3.org/2000/svg"
         >
           {/* Left side - Lightning bolt shape */}
           <g className="logo-left-part">
             <polygon points="170,85 140,180 190,180 125,270 200,140 150,140" fill="white" />
           </g>
-          
+
           {/* Right side - Triangle shape */}
           <g className="logo-right-part">
             <polygon points="200,85 330,85 380,200 330,200" fill="white" />
