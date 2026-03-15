@@ -27,7 +27,7 @@ app.get('/api/news', async (req, res) => {
     const response = await axios.get('https://newsapi.org/v2/everything?q=stock+market&sortBy=publishedAt&language=en', {
       params: { apiKey: 'bc222aa8fba24f8b9710732c4645834c' }
     });
-    
+
     const newsData = response.data.articles.map((article, index) => ({
       id: index,
       title: article.title,
@@ -36,11 +36,11 @@ app.get('/api/news', async (req, res) => {
       sentiment: 'bullish',
       date: new Date(article.publishedAt).toLocaleDateString()
     }));
-    
+
     res.json({ news: newsData });
   } catch (error) {
     console.error('Error fetching news:', error);
-    
+
     // Fallback to hardcoded news if API fails
     const fallbackNews = [
       {
@@ -92,7 +92,7 @@ app.get('/api/news', async (req, res) => {
         date: '2 days ago'
       }
     ];
-    
+
     res.json({ news: fallbackNews });
   }
 });
@@ -243,7 +243,7 @@ const initializeDatabase = async () => {
         { symbol: 'AMZN', name: 'Amazon.com Inc', currentPrice: 170.50, previousClose: 169.00, dayHigh: 172.00, dayLow: 168.00, volume: 1200000, change: 1.50, changePercent: 0.89 },
         { symbol: 'TSLA', name: 'Tesla Inc', currentPrice: 240.75, previousClose: 235.50, dayHigh: 245.00, dayLow: 234.00, volume: 2500000, change: 5.25, changePercent: 2.23 }
       ];
-      
+
       await Stock.bulkCreate(sampleStocks);
       console.log('Sample stocks added');
     }
@@ -252,9 +252,16 @@ const initializeDatabase = async () => {
   }
 };
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, async () => {
-  await initializeDatabase();
-  console.log(`Server running on port ${PORT}`);
-});
+// Start server only when not running on Vercel
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, async () => {
+    await initializeDatabase();
+    console.log(`Server running on port ${PORT}`);
+  });
+} else {
+  // If required as a module (e.g. by Vercel serverless function), initialize DB without listening
+  initializeDatabase();
+}
+
+module.exports = app;

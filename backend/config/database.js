@@ -1,9 +1,13 @@
 const { Sequelize } = require('sequelize');
-const path = require('path');
 
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: path.join(__dirname, '../database.sqlite'),
+const sequelize = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost:5432/trading', {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: process.env.NODE_ENV === 'production' ? {
+      require: true,
+      rejectUnauthorized: false
+    } : false
+  },
   logging: false
 });
 
