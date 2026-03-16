@@ -1,5 +1,6 @@
 try {
   console.log('Vercel API Entry: Loading backend...');
+  console.log('Env Keys available at entry:', Object.keys(process.env).sort());
   const app = require('../backend/server');
   console.log('Vercel API Entry: Backend loaded successfully.');
   module.exports = app;

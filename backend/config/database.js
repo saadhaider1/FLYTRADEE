@@ -1,16 +1,18 @@
 const { Sequelize } = require('sequelize');
 const path = require('path');
 
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.NEON_DATABASE_URL;
 const isVercel = process.env.VERCEL === '1';
 
 // Masked logging for debugging
 if (isVercel) {
   console.log('--- VERCEL STARTUP CHECK ---');
   console.log('NODE_ENV:', process.env.NODE_ENV);
-  console.log('DATABASE_URL present:', !!databaseUrl);
+  console.log('Available Env Keys:', Object.keys(process.env).filter(k => k.includes('DB') || k.includes('URL') || k.includes('POSTGRES')));
+  console.log('DATABASE_URL present:', !!process.env.DATABASE_URL);
+  console.log('POSTGRES_URL present:', !!process.env.POSTGRES_URL);
   if (databaseUrl) {
-    console.log('DATABASE_URL prefix:', databaseUrl.substring(0, 10));
+    console.log('Active DB URL prefix:', databaseUrl.substring(0, 15));
   }
 }
 
@@ -19,12 +21,11 @@ let sequelize;
 try {
   if (isVercel || process.env.NODE_ENV === 'production') {
     if (!databaseUrl) {
-      console.error('CRITICAL: DATABASE_URL is missing in PRODUCTION/VERCEL environment!');
-      // On Vercel, we MUST have a DB. But we fall back to a "safe" mock to prevent module crash.
-      // This allows the app to load and serve a 500 with a real error message instead of crashing the process.
-      sequelize = new Sequelize('sqlite::memory:', { logging: false });
+      console.error('CRITICAL ERROR: No Database URL found in Vercel environment!');
+      // Instead of SQLite fallback, we throw a specific error that doesn't require a native module
+      throw new Error('DATABASE_URL is missing. Please add it to Vercel Environment Variables.');
     } else {
-      console.log('Using PostgreSQL database (Vercel/Production)');
+      console.log('Initializing PostgreSQL (Vercel/Production)');
       const normalizedUrl = databaseUrl.replace('postgresql://', 'postgres://');
       sequelize = new Sequelize(normalizedUrl, {
         dialect: 'postgres',
