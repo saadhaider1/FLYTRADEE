@@ -26,6 +26,18 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/trades', tradeRoutes);
 
+// Health check and diagnostics
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    environment: process.env.NODE_ENV,
+    vercel: !!process.env.VERCEL,
+    database: sequelize ? 'initialized' : 'missing'
+  });
+});
+
+console.log('Backend module loading... [Vercel:', !!process.env.VERCEL, ']');
+
 // News endpoint
 app.get('/api/news', async (req, res) => {
   try {

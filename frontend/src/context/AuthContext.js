@@ -38,14 +38,23 @@ export const AuthProvider = ({ children }) => {
       console.error('Signup error details:', error);
       let message = 'Signup failed';
       if (error.response) {
+        const status = error.response.status;
         const errData = error.response.data;
+        console.log(`Server responded with ${status}:`, errData);
+
         if (typeof errData === 'string') {
-          message = errData.includes('A server error has occurred') 
-            ? 'Vercel Server Error: The backend function crashed. Please check Vercel Logs.'
-            : errData;
+          if (errData.includes('A server error has occurred')) {
+            message = `Vercel 500 Error: Backend crashed. Please check Vercel Runtime Logs. (Status: ${status})`;
+          } else {
+            message = `Server Error (${status}): ${errData.substring(0, 50)}${errData.length > 50 ? '...' : ''}`;
+          }
         } else if (errData?.error) {
           message = typeof errData.error === 'string' ? errData.error : (errData.error.message || 'Signup failed');
+        } else {
+          message = `Error ${status}: Something went wrong on the server.`;
         }
+      } else if (error.request) {
+        message = 'No response from server. Check your internet or if the server is down.';
       } else {
         message = error.message;
       }
@@ -68,15 +77,23 @@ export const AuthProvider = ({ children }) => {
       console.error('Signin error details:', error);
       let message = 'Login failed';
       if (error.response) {
-        // If the server returns a 500, Vercel might send back HTML or a plain text string
+        const status = error.response.status;
         const errData = error.response.data;
+        console.log(`Server responded with ${status}:`, errData);
+        
         if (typeof errData === 'string') {
-          message = errData.includes('A server error has occurred') 
-            ? 'Vercel Server Error: The backend function crashed. Please check Vercel Logs.'
-            : errData;
+          if (errData.includes('A server error has occurred')) {
+            message = `Vercel 500 Error: Backend crashed. Please check Vercel Runtime Logs. (Status: ${status})`;
+          } else {
+            message = `Server Error (${status}): ${errData.substring(0, 50)}${errData.length > 50 ? '...' : ''}`;
+          }
         } else if (errData?.error) {
           message = typeof errData.error === 'string' ? errData.error : (errData.error.message || 'Login failed');
+        } else {
+          message = `Error ${status}: Something went wrong on the server.`;
         }
+      } else if (error.request) {
+        message = 'No response from server. Check your internet or if the server is down.';
       } else {
         message = error.message;
       }
