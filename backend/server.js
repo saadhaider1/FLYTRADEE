@@ -23,8 +23,9 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/trades', tradeRoutes);
+// Routes - Supporting both prefixed and non-prefixed for Vercel flexibility
+app.use(['/api/auth', '/auth'], authRoutes);
+app.use(['/api/trades', '/trades'], tradeRoutes);
 
 // Health check and diagnostics
 app.get('/api/health', (req, res) => {

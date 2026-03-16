@@ -49,6 +49,7 @@ try {
   console.error('CRITICAL: Error during Sequelize initialization:', err);
   // Fail-safe initialization to prevent top-level require failures
   sequelize = new Sequelize('sqlite::memory:', { logging: false });
+  console.log('Sequelize initialized with in-memory SQLite due to error.'); // Simple test log
 }
 
 module.exports = sequelize;
