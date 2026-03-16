@@ -36,8 +36,19 @@ export const AuthProvider = ({ children }) => {
       return { success: true };
     } catch (error) {
       console.error('Signup error details:', error);
-      const errData = error.response?.data?.error;
-      const message = typeof errData === 'string' ? errData : (errData?.message || error.message || 'Signup failed');
+      let message = 'Signup failed';
+      if (error.response) {
+        const errData = error.response.data;
+        if (typeof errData === 'string') {
+          message = errData.includes('A server error has occurred') 
+            ? 'Vercel Server Error: The backend function crashed. Please check Vercel Logs.'
+            : errData;
+        } else if (errData?.error) {
+          message = typeof errData.error === 'string' ? errData.error : (errData.error.message || 'Signup failed');
+        }
+      } else {
+        message = error.message;
+      }
       return { success: false, error: message };
     } finally {
       setLoading(false);
@@ -55,8 +66,20 @@ export const AuthProvider = ({ children }) => {
       return { success: true };
     } catch (error) {
       console.error('Signin error details:', error);
-      const errData = error.response?.data?.error;
-      const message = typeof errData === 'string' ? errData : (errData?.message || error.message || 'Login failed');
+      let message = 'Login failed';
+      if (error.response) {
+        // If the server returns a 500, Vercel might send back HTML or a plain text string
+        const errData = error.response.data;
+        if (typeof errData === 'string') {
+          message = errData.includes('A server error has occurred') 
+            ? 'Vercel Server Error: The backend function crashed. Please check Vercel Logs.'
+            : errData;
+        } else if (errData?.error) {
+          message = typeof errData.error === 'string' ? errData.error : (errData.error.message || 'Login failed');
+        }
+      } else {
+        message = error.message;
+      }
       return { success: false, error: message };
     } finally {
       setLoading(false);

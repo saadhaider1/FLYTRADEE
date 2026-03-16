@@ -4,30 +4,28 @@ const path = require('path');
 const databaseUrl = process.env.DATABASE_URL;
 const isVercel = process.env.VERCEL === '1';
 
-// Detailed logging for Vercel debugging
+// Masked logging for debugging
 if (isVercel) {
   console.log('--- VERCEL STARTUP CHECK ---');
   console.log('NODE_ENV:', process.env.NODE_ENV);
   console.log('DATABASE_URL present:', !!databaseUrl);
   if (databaseUrl) {
-    console.log('DATABASE_URL protocol:', databaseUrl.split(':')[0]);
+    console.log('DATABASE_URL prefix:', databaseUrl.substring(0, 10));
   }
-  console.log('----------------------------');
 }
 
 let sequelize;
 
 try {
-  if (isVercel || (process.env.NODE_ENV === 'production' && databaseUrl)) {
+  if (isVercel || process.env.NODE_ENV === 'production') {
     if (!databaseUrl) {
-      console.error('ERROR: DATABASE_URL is missing in PRODUCTION/VERCEL');
-      sequelize = null;
+      console.error('CRITICAL: DATABASE_URL is missing in PRODUCTION/VERCEL environment!');
+      // On Vercel, we MUST have a DB. But we fall back to a "safe" mock to prevent module crash.
+      // This allows the app to load and serve a 500 with a real error message instead of crashing the process.
+      sequelize = new Sequelize('sqlite::memory:', { logging: false });
     } else {
       console.log('Using PostgreSQL database (Vercel/Production)');
-      
-      // Sequelize/pg sometimes prefers postgres:// over postgresql://
       const normalizedUrl = databaseUrl.replace('postgresql://', 'postgres://');
-      
       sequelize = new Sequelize(normalizedUrl, {
         dialect: 'postgres',
         dialectOptions: {
@@ -48,8 +46,9 @@ try {
     });
   }
 } catch (err) {
-  console.error('CRITICAL: Failed to create Sequelize instance:', err);
-  sequelize = null;
+  console.error('CRITICAL: Error during Sequelize initialization:', err);
+  // Fail-safe initialization to prevent top-level require failures
+  sequelize = new Sequelize('sqlite::memory:', { logging: false });
 }
 
 module.exports = sequelize;
