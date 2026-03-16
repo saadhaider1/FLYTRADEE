@@ -18,7 +18,7 @@ async function viewUsers() {
       console.table(users);
     }
   } catch (error) {
-    console.error('Error:', error.message);
+    console.error('Error:', error);
   } finally {
     await sequelize.close();
   }
