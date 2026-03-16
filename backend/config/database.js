@@ -7,10 +7,13 @@ let sequelize;
 
 if (isVercel || (process.env.NODE_ENV === 'production' && databaseUrl)) {
   if (!databaseUrl) {
-    throw new Error('DATABASE_URL is required in production/Vercel environment');
+    throw new Error('DATABASE_URL environment variable is missing in production/Vercel');
   }
   
   console.log('Using PostgreSQL database (Vercel/Production)');
+  // Log a masked version of the URL to verify it's present in the logs
+  console.log(`Connection string prefix: ${databaseUrl.substring(0, 15)}...`);
+  
   sequelize = new Sequelize(databaseUrl, {
     dialect: 'postgres',
     dialectOptions: {
