@@ -49,7 +49,9 @@ export const AuthProvider = ({ children }) => {
             message = `Server Error (${status}): ${errData.substring(0, 50)}${errData.length > 50 ? '...' : ''}`;
           }
         } else if (errData?.error) {
-          message = typeof errData.error === 'string' ? errData.error : (errData.error.message || 'Signup failed');
+          const mainError = typeof errData.error === 'string' ? errData.error : (errData.error.message || 'Signup failed');
+          const details = errData.details ? ` (${errData.details})` : '';
+          message = mainError + details;
         } else {
           message = `Error ${status}: Something went wrong on the server.`;
         }
