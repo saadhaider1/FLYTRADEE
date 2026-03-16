@@ -256,12 +256,19 @@ const initializeDatabase = async () => {
 if (require.main === module) {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, async () => {
-    await initializeDatabase();
-    console.log(`Server running on port ${PORT}`);
+    try {
+      await initializeDatabase();
+      console.log(`Server running on port ${PORT}`);
+    } catch (err) {
+      console.error('Failed to start server:', err);
+    }
   });
 } else {
   // If required as a module (e.g. by Vercel serverless function), initialize DB without listening
-  initializeDatabase();
+  // We don't await here to avoid blocking Vercel's initialization, but we handle errors
+  initializeDatabase().catch(err => {
+    console.error('Vercel DB initialization error:', err);
+  });
 }
 
 module.exports = app;

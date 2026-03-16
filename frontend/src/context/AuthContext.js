@@ -35,8 +35,10 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
       return { success: true };
     } catch (error) {
+      console.error('Signup error details:', error);
       const errData = error.response?.data?.error;
-      return { success: false, error: typeof errData === 'string' ? errData : (errData?.message || 'Signup failed') };
+      const message = typeof errData === 'string' ? errData : (errData?.message || error.message || 'Signup failed');
+      return { success: false, error: message };
     } finally {
       setLoading(false);
     }
@@ -52,8 +54,10 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
       return { success: true };
     } catch (error) {
+      console.error('Signin error details:', error);
       const errData = error.response?.data?.error;
-      return { success: false, error: typeof errData === 'string' ? errData : (errData?.message || 'Login failed') };
+      const message = typeof errData === 'string' ? errData : (errData?.message || error.message || 'Login failed');
+      return { success: false, error: message };
     } finally {
       setLoading(false);
     }
